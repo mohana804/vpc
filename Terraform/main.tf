@@ -122,7 +122,7 @@ module "web_asg" {
   desired_capacity    = 2
   health_check_type   = "ELB"
   vpc_zone_identifier = module.vpc.public_subnets
-  target_group_arns   = module.alb.target_group_arns
+  target_group_arns = module.alb.target_groups[0].arn
 
   launch_template_name        = "web-tier-lt"
   launch_template_description = "Launch template for web tier instances"
@@ -196,7 +196,7 @@ module "rds" {
 }
 
 output "alb_dns_name" {
-  value = module.alb.lb_dns_name
+  value = module.alb.dns_name
 }
 
 output "app_instance_private_ips" {
