@@ -82,8 +82,7 @@ module "db_sg" {
   ]
   egress_rules = ["all-all"]
 }
-
-# Web Tier (Auto Scaling Group with ALB)
+# Web Tier (Auto Scaling Group with ALB) - Corrected Configuration
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "9.0.0"
@@ -100,18 +99,27 @@ module "alb" {
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
+      health_check = {
+        path                = "/"
+        interval            = 30
+        timeout             = 5
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        matcher             = "200-399"
+      }
     }
   ]
 
-   listeners = [
+  http_tcp_listeners = [
     {
-     port     = 80
-     protocol = "HTTP"
-     forward = {
-       target_group_arns = [module.alb.target_groups[0].arn]
+      port               = 80
+      protocol           = "HTTP"
+      target_group_index = 0  # This automatically associates with the first target group
     }
-  }
-]
+  ]
+
+  # Prevent the module from creating separate target group attachments
+  create_lb_target_group_attachment = false
 }
 
 module "web_asg" {
