@@ -118,9 +118,6 @@ module "alb" {
       target_group_index = 0  # This automatically associates with the first target group
     }
   ]
-
-  # Prevent the module from creating separate target group attachments
-  create_lb_target_group_attachment = false
 }
 
 module "web_asg" {
