@@ -119,7 +119,7 @@ module "web_asg" {
   name                = "web-tier-asg"
   min_size            = 1
   max_size            = 2
-  desired_capacity        = 2
+  desired_capacity    = 2
   health_check_type   = "ELB"
   vpc_zone_identifier = module.vpc.public_subnets
   target_group_arns   = module.alb.target_group_arns
