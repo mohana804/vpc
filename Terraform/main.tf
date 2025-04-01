@@ -81,18 +81,26 @@ module "app_instance" {
 # RDS for Database Tier
 module "rds" {
   source  = "terraform-aws-modules/rds/aws"
-  version = "6.0.0" # Updated to the latest version
+  version = "6.0.0"
 
   identifier           = "three-tier-db"
   engine               = "mysql"
   engine_version       = "8.0"
+  major_engine_version = "8.0"     # Required for option group
+  family               = "mysql8.0" # Required for parameter group
+  
   instance_class       = "db.t3.micro"
   allocated_storage    = 20
   username             = "admin"
-  password             = "ChangeMe123!"
+  password             = "ChangeMe123!" # Consider using AWS Secrets Manager
 
   vpc_security_group_ids = [module.security_group.security_group_id]
   subnet_ids             = module.vpc.private_subnets
   publicly_accessible    = false
   skip_final_snapshot    = true
+
+  # Recommended additional parameters
+  multi_az               = false    # Set to true for production
+  storage_encrypted      = true     # Enable encryption at rest
+  deletion_protection    = false    # Set to true for production
 }
