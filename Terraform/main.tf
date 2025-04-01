@@ -82,7 +82,8 @@ module "db_sg" {
   ]
   egress_rules = ["all-all"]
 }
-# Web Tier (Auto Scaling Group with ALB) - Corrected Configuration
+
+## Web Tier (Auto Scaling Group with ALB) - Corrected Configuration
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "9.0.0"
@@ -110,7 +111,7 @@ module "alb" {
     }
   ]
 
-  http_tcp_listeners = [
+   listeners = [
     {
       port               = 80
       protocol           = "HTTP"
