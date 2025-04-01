@@ -105,11 +105,13 @@ module "alb" {
 
    listeners = [
     {
-      port               = 80
-      protocol           = "HTTP"
-      target_group_index = 0
+     port     = 80
+     protocol = "HTTP"
+     forward = {
+       target_group_index = 0
     }
-  ]
+  }
+]
 }
 
 module "web_asg" {
@@ -122,7 +124,7 @@ module "web_asg" {
   desired_capacity    = 2
   health_check_type   = "ELB"
   vpc_zone_identifier = module.vpc.public_subnets
-  target_group_arns = module.alb.target_groups[0].arn
+  target_group_arns = [module.alb.target_groups[0].arn]
 
   launch_template_name        = "web-tier-lt"
   launch_template_description = "Launch template for web tier instances"
