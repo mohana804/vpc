@@ -112,13 +112,7 @@ module "alb" {
   ]
 }
 
-
-# Application Tier
-module "app_instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "5.0.0"
-
-  for_each = toset(["app-1", "app-2"])module "web_asg" {
+module "web_asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "6.5.0"
 
@@ -157,6 +151,13 @@ module "app_instance" {
   ]
 }
 
+# Application Tier
+module "app_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "5.0.0"
+
+  for_each = toset(["app-1", "app-2"])
+
   name                   = "three-tier-app-${each.key}"
   ami                    = data.aws_ssm_parameter.amazon_linux_2.value
   instance_type          = "t3.micro"
@@ -192,4 +193,16 @@ module "rds" {
   multi_az               = false    # Set to true for production
   storage_encrypted      = true
   deletion_protection    = false    # Set to true for production
+}
+
+output "alb_dns_name" {
+  value = module.alb.lb_dns_name
+}
+
+output "app_instance_private_ips" {
+  value = values(module.app_instance)[*].private_ip
+}
+
+output "rds_endpoint" {
+  value = module.rds.db_instance_endpoint
 }
