@@ -112,21 +112,27 @@ module "alb" {
   ]
 }
 
-module "web_asg" {
+
+# Application Tier
+module "app_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "5.0.0"
+
+  for_each = toset(["app-1", "app-2"])module "web_asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "6.5.0"
 
-  name          = "web-tier-asg"
-  min_size      = 2
-  max_size      = 4
-  desired_size  = 2
-  health_check_type = "ELB"
+  name                = "web-tier-asg"
+  min_size            = 2
+  max_size            = 4
+  desired_size        = 2
+  health_check_type   = "ELB"
   vpc_zone_identifier = module.vpc.public_subnets
   target_group_arns   = module.alb.target_group_arns
 
-  launch_template_name = "web-tier-lt"
+  launch_template_name        = "web-tier-lt"
   launch_template_description = "Launch template for web tier instances"
-  update_default_version = true
+  update_default_version      = true
 
   image_id      = data.aws_ssm_parameter.amazon_linux_2.value
   instance_type = "t3.micro"
@@ -139,6 +145,7 @@ module "web_asg" {
     systemctl enable httpd
     echo "<h1>Hello from Web Tier</h1>" > /var/www/html/index.html
   EOF
+  )
 
   tag_specifications = [
     {
@@ -149,13 +156,6 @@ module "web_asg" {
     }
   ]
 }
-
-# Application Tier
-module "app_instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "5.0.0"
-
-  for_each = toset(["app-1", "app-2"])
 
   name                   = "three-tier-app-${each.key}"
   ami                    = data.aws_ssm_parameter.amazon_linux_2.value
