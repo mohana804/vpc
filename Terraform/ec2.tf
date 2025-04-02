@@ -21,7 +21,7 @@ resource "aws_instance" "PublicWebTemplate" {
   subnet_id              = aws_subnet.public-webtier-subnet-1.id
   vpc_security_group_ids = [aws_security_group.webserver-security-group.id]
   key_name               = "keypair"
-  user_data              = file("install-apache.sh")
+  user_data = file("${path.module}/apache.sh")
 
   tags = {
     Name = "webtier-instance"
