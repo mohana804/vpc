@@ -1,14 +1,13 @@
 
 resource "aws_vpc" "vpc_test" {
-  cidr_block           = var.vpc_cidr
-  instance_tenancy     = "default"
+  cidr_block = var.vpc_cidr
+  enable_dns_support = true
   enable_dns_hostnames = true
 
   tags = {
-    Name = "vpc-test"
+    Name = "Test VPC"
   }
 }
-
 
 
 
