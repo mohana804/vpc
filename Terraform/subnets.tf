@@ -4,7 +4,7 @@
 resource "aws_subnet" "public-webtier-subnet-1" {
   vpc_id                  = aws_vpc.vpc_test.id
   cidr_block              = var.public-webtier-subnet-1-cidr
-  availability_zone       = "us-east-1a"
+  availability_zone       = "ap-south-1a"
   map_public_ip_on_launch = true
 
   tags = {
@@ -17,7 +17,7 @@ resource "aws_subnet" "public-webtier-subnet-1" {
 resource "aws_subnet" "public-webtier-subnet-2" {
   vpc_id                  = aws_vpc.vpc_test.id
   cidr_block              = var.public-webtier-subnet-2-cidr
-  availability_zone       = "us-east-1b"
+  availability_zone       = "ap-south-1b"
   map_public_ip_on_launch = true
 
   tags = {
@@ -30,7 +30,7 @@ resource "aws_subnet" "public-webtier-subnet-2" {
 resource "aws_subnet" "private-apptier-subnet-1" {
   vpc_id                  = aws_vpc.vpc_test.id
   cidr_block              = var.private-apptier-subnet-1-cidr
-  availability_zone       = "us-east-1a"
+  availability_zone       = "ap-south-1a"
   map_public_ip_on_launch = false
 
   tags = {
@@ -44,7 +44,7 @@ resource "aws_subnet" "private-apptier-subnet-1" {
 resource "aws_subnet" "private-apptier-subnet-2" {
   vpc_id                  = aws_vpc.vpc_test.id
   cidr_block              = var.private-apptier-subnet-2-cidr
-  availability_zone       = "us-east-1b"
+  availability_zone       = "ap-south-1b"
   map_public_ip_on_launch = false
 
   tags = {
@@ -58,7 +58,7 @@ resource "aws_subnet" "private-apptier-subnet-2" {
 resource "aws_subnet" "private-database-subnet-1" {
   vpc_id                  = aws_vpc.vpc_test.id
   cidr_block              = var.private-database-subnet-1-cidr
-  availability_zone       = "us-east-1a"
+  availability_zone       = "ap-south-1a"
   map_public_ip_on_launch = false
 
   tags = {
