@@ -108,6 +108,7 @@ module "alb" {
         unhealthy_threshold = 3  
         matcher             = "200-399"  
       }  
+      target_id = "your_target_id_value"
     }  
   ]  
 
