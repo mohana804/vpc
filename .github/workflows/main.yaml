@@ -37,6 +37,11 @@ jobs:
 
       - name: Debug File Structure
         run: ls -R
+        working-directory: ./Terraform
+
+      - name: Ensure Scripts Are Executable
+        run: chmod +x *.sh || true
+        working-directory: ./Terraform
 
       - name: Initialize Terraform
         run: terraform init
@@ -58,8 +63,7 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: ./Terraform
 
-      - name: Destroy Terraform
-        run: terraform destroy 
+      - name: Destroy Terraform (Optional)
+        if: ${{ github.event_name == 'pull_request' }}  # Only run on PRs
+        run: terraform destroy -auto-approve
         working-directory: ./Terraform
-
-    
