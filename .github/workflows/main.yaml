@@ -42,10 +42,6 @@ jobs:
         run: terraform init
         working-directory: ./Terraform
 
-      - name: check
-        run: TF_LOG=DEBUG terraform validate
-        Working-directory: ./Terraform
-
       - name: Validate Terraform
         run: terraform validate
         working-directory: ./Terraform
