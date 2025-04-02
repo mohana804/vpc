@@ -47,7 +47,11 @@ jobs:
         working-directory: ./Terraform
 
       - name: Plan Terraform
-        run: terraform plan
+        run: terraform plan -out=tfplan
+        working-directory: ./Terraform
+
+      - name: Show Terraform Plan
+        run: terraform show -json tfplan | jq .
         working-directory: ./Terraform
 
       - name: Apply Terraform
