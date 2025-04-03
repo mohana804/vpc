@@ -73,7 +73,7 @@ resource "aws_subnet" "private-database-subnet-1" {
 resource "aws_subnet" "private-database-subnet-2" {
   vpc_id                  = aws_vpc.vpc_test.id
   cidr_block              = var.private-database-subnet-2-cidr
-  availability_zone       = "us-east-1b"
+  availability_zone       = "ap-south-1b"
   map_public_ip_on_launch = false
 
   tags = {
