@@ -23,7 +23,7 @@ resource "aws_db_instance" "database-instance" {
   password               = var.password
   parameter_group_name   = "default.mysql8.0"
   skip_final_snapshot    = true
-  availability_zone      = "us-east-1b"
+  availability_zone      = "ap-south-1b"
   db_subnet_group_name   = aws_db_subnet_group.database-subnet-group.name
   multi_az               = var.multi-az-deployment
   vpc_security_group_ids = [aws_security_group.database-security-group.id]
